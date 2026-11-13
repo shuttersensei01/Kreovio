@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     app_name: str = "Kreovio"
     environment: str = "development"
     log_level: str = "INFO"
-    mongodb_uri: str = "mongodb://localhost:27017/?replicaSet=rs0"
+    mongodb_uri: str = "mongodb://localhost:27018/?replicaSet=rs0"
     mongodb_database: str = "kreovio"
     redis_url: str = "redis://localhost:6379/0"
     jwt_secret: str = "development-only-change-me"

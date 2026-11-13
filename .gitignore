@@ -8,6 +8,7 @@ htmlcov/
 coverage.xml
 junit.xml
 .coverage
+.mongo/
 storage/
 .ollama/
 *.pyc

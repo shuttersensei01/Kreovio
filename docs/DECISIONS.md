@@ -16,3 +16,11 @@
 
 **Consequences:** Orchestrators can detect unavailable infrastructure, while operators see the specific dependency that failed.
 
+## 2026-11-13 — Isolate the local Kreovio MongoDB replica set on port 27018
+
+**Context:** The machine's existing MongoDB listener on port 27017 is not replica-set enabled. Kreovio requires transactions, which require a replica set.
+
+**Decision:** Run a project-local `rs0` MongoDB instance on `127.0.0.1:27018`, with its data under `.mongo/`. The project default URI and Docker host port use 27018.
+
+**Consequences:** Kreovio does not modify or conflict with the existing MongoDB service. A `.env` may override this default for a separately administered replica set.
+
