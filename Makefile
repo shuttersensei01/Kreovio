@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := test
+.PHONY: up down test lint typecheck report seed demo eval eval-live
 
 up:
 	docker compose up -d mongo mongo-init redis
@@ -17,6 +18,7 @@ typecheck:
 
 report:
 	cd backend && uv run pytest --junitxml=../junit.xml --cov=app --cov-report=xml:../coverage.xml --cov-report=html:../htmlcov
+	cd backend && uv run python scripts/generate_test_report.py
 
 seed:
 	cd backend && uv run python scripts/seed.py

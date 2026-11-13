@@ -4,18 +4,21 @@
 
 - Python 3.12 FastAPI scaffold with settings, structured logging, UTC clock and dependency-aware health endpoint.
 - Docker Compose services for MongoDB 7 replica set, Redis, and optional Ollama.
-- uv project metadata, Make targets, unit-test skeleton, environment template, and developer documentation.
+- uv project metadata, Make targets, unit-test skeleton, environment template, CI provisioning of MongoDB/Redis, and developer documentation.
+- `make report` produces JUnit XML, XML/HTML coverage, and `docs/reports/TEST_REPORT.md`.
 
 ## Tests
 
-- Unit tests cover the UTC clock and a healthy Mongo replica-set/Redis health response.
+- `make report` passes: 4 tests, ruff, mypy, and 92.5% branch coverage.
+- Unit tests cover the UTC clock and healthy/unavailable MongoDB/Redis health responses.
 
 ## Known gaps
 
-- Docker is not installed in the current environment, so local service integration could not be verified yet.
+- GNU Make is installed and available in new terminals. Docker Desktop installation remains incomplete.
+- The existing MongoDB process at `localhost:27017` is not replica-set enabled. Updating its protected configuration requires Windows administrator rights before transactions and live health can be verified.
 - User, workspace, repository, audit, indexes and seed data begin in Phase 1.
 
 ## Run
 
-Install uv, run `make up`, then `make test`, `make lint`, and `make typecheck`.
+Install/start Docker Desktop, configure local MongoDB with `replSetName: rs0`, then run `make up`, `make test`, `make lint`, `make typecheck`, and `make report`.
 

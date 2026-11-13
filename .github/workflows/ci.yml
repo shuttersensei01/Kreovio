@@ -13,10 +13,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Start MongoDB replica set and Redis
+        run: |
+          docker run -d --name kreovio-mongo -p 27017:27017 mongo:7 mongod --replSet rs0 --bind_ip_all
+          docker run -d --name kreovio-redis -p 6379:6379 redis:7-alpine
+          until docker exec kreovio-mongo mongosh --quiet --eval "db.adminCommand('ping').ok"; do sleep 1; done
+          docker exec kreovio-mongo mongosh --quiet --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'localhost:27017'}]})"
+          until docker exec kreovio-mongo mongosh --quiet --eval "db.hello().isWritablePrimary" | grep true; do sleep 1; done
       - run: cd backend && uv sync --all-groups
       - run: cd backend && uv run ruff check .
       - run: cd backend && uv run mypy app
-      - run: cd backend && uv run pytest --junitxml=../junit.xml --cov=app --cov-report=xml:../coverage.xml
+      - run: cd backend && uv run pytest --junitxml=../junit.xml --cov=app --cov-report=xml:../coverage.xml --cov-report=html:../htmlcov
+      - run: cd backend && uv run python scripts/generate_test_report.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -24,3 +32,5 @@ jobs:
           path: |
             junit.xml
             coverage.xml
+            htmlcov/
+            docs/reports/TEST_REPORT.md
