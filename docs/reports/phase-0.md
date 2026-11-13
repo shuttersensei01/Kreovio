@@ -14,7 +14,7 @@
 
 ## Known gaps
 
-- GNU Make is installed and available in new terminals. Docker Desktop installation remains incomplete.
+- GNU Make is installed and available in new terminals. Docker Desktop is running, and the local Redis Compose service is healthy.
 - The existing MongoDB process at `localhost:27017` is not replica-set enabled. Updating its protected configuration requires Windows administrator rights before transactions and live health can be verified.
 - User, workspace, repository, audit, indexes and seed data begin in Phase 1.
 
