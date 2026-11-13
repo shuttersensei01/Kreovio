@@ -9,7 +9,7 @@ AI-assisted client-journey platform for creative businesses.
 3. Run `make up` to start MongoDB (single-node replica set) and Redis.
 4. Run `make test`, `make lint`, and `make typecheck`.
 
-Run the API with `cd backend && uv run uvicorn app.main:app --reload`. `GET /health` reports MongoDB replica-set and Redis state. The default local connection uses port 27018 to avoid a non-replica-set MongoDB service that may already use 27017.
+Run the API with `cd backend && uv run uvicorn app.main:app --reload`. `GET /health` reports MongoDB replica-set and Redis state. The local MongoDB server must run as replica set `rs0` for transactional features.
 
 Ollama is optional in Phase 0: run `docker compose --profile ollama up -d` when a local model is needed.
 
